@@ -23,7 +23,7 @@ COPY *.js ${FUNCTION_DIR}/
 COPY *.cjs ${FUNCTION_DIR}/
 COPY *.sh ${FUNCTION_DIR}/
 
-RUN npm ci && \
+RUN npm install && \
     npm install puppeteer && \
     chmod -R +x node_modules/puppeteer-chromium && \
     chmod -R +x entrypoint.sh && \
