@@ -4,11 +4,14 @@ FROM gitlab/gitlab-runner:latest
 RUN apt-get upgrade \
     && apt-get update \
     && apt-get install -y x11-apps\
-    && apt-get install -y wget gnupg chromium mesa-va-drivers libva-drm2 libva-x11-2 mesa-utils mesa-utils-extra nodejs npm\
+    && apt-get install -y wget gnupg mesa-va-drivers libva-drm2 libva-x11-2 mesa-utils mesa-utils-extra nodejs npm\
     && apt-get update \
     && apt-get install -y fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
+
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install    
 
 RUN mkdir -p ${FUNCTION_DIR}/
 
