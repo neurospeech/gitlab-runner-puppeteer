@@ -1,12 +1,8 @@
-# ARG GITLAB_RUNNER_IMAGE_TYPE
-# ARG GITLAB_RUNNER_IMAGE_TAG
-ARG GITLAB_INSTANCE
-ARG GITLAB_TOKEN
 ARG APP_DIR="/app"
 FROM gitlab/gitlab-runner:latest
 
 RUN apk-get upgrade \
-    && apk-get update
+    && apk-get update \
     && apt-get install -y x11-apps\
     && apt-get install -y wget gnupg chromium mesa-va-drivers libva-drm2 libva-x11-2 mesa-utils mesa-utils-extra nodejs npm\
     && apt-get update \
@@ -22,10 +18,12 @@ COPY src ${FUNCTION_DIR}/src
 COPY *.json ${FUNCTION_DIR}/
 COPY *.js ${FUNCTION_DIR}/
 COPY *.cjs ${FUNCTION_DIR}/
+COPY *.sh ${FUNCTION_DIR}/
 
 RUN npm ci && \
     npm install puppeteer && \
     chmod -R +x node_modules/puppeteer-chromium && \
+    chmod -R +x entrypoint.sh && \
     npm install -g typescript && \
     npm install aws-lambda-ric && \
     tsc
@@ -34,18 +32,4 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 ENV HOME="/tmp"
 
-
-RUN gitlab/gitlab-runner register \
-  --non-interactive \
-  --executor "docker" \
-  --docker-image alpine:latest \
-  --url ${GITLAB_INSTANCE} \
-  --registration-token ${GITLAB_TOKEN} \
-  --description "docker-runner" \
-  --maintenance-note "Free-form maintainer notes about this runner" \
-  --tag-list "docker,aws" \
-  --run-untagged="true" \
-  --locked="false" \
-  --access-level="not_protected"
-
-ENTRYPOINT ["gitlab/gitlab-runner"]
+ENTRYPOINT ["entrypoint.sh"]
