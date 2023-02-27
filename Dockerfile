@@ -35,7 +35,6 @@ RUN npm install && \
     chmod -R +x node_modules/puppeteer-chromium && \
     chmod -R +x entrypoint.sh && \
     npm install -g typescript && \
-    npm install aws-lambda-ric && \
     tsc
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
