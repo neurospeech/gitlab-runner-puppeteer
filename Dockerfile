@@ -1,9 +1,9 @@
-ARG GITLAB_RUNNER_IMAGE_TYPE
-ARG GITLAB_RUNNER_IMAGE_TAG
+# ARG GITLAB_RUNNER_IMAGE_TYPE
+# ARG GITLAB_RUNNER_IMAGE_TAG
 ARG GITLAB_INSTANCE
 ARG GITLAB_TOKEN
 ARG APP_DIR="/app"
-FROM gitlab/${GITLAB_RUNNER_IMAGE_TYPE}:${GITLAB_RUNNER_IMAGE_TAG}
+FROM gitlab/gitlab-runner:latest
 
 RUN apk update
 RUN apk upgrade
@@ -37,17 +37,17 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV HOME="/tmp"
 
 
-RUN gitlab/gitlab-runner register &&\
-  --non-interactive &&\
-  --executor "docker" &&\
-  --docker-image alpine:latest &&\
-  --url ${GITLAB_INSTANCE} &&\
-  --registration-token ${GITLAB_TOKEN} &&\
-  --description "docker-runner" &&\
-  --maintenance-note "Free-form maintainer notes about this runner" &&\
-  --tag-list "docker,aws" &&\
-  --run-untagged="true" &&\
-  --locked="false" &&\
+RUN gitlab/gitlab-runner register \
+  --non-interactive \
+  --executor "docker" \
+  --docker-image alpine:latest \
+  --url ${GITLAB_INSTANCE} \
+  --registration-token ${GITLAB_TOKEN} \
+  --description "docker-runner" \
+  --maintenance-note "Free-form maintainer notes about this runner" \
+  --tag-list "docker,aws" \
+  --run-untagged="true" \
+  --locked="false" \
   --access-level="not_protected"
 
 ENTRYPOINT ["gitlab/gitlab-runner"]
