@@ -1,8 +1,8 @@
 ARG APP_DIR="/app"
 FROM gitlab/gitlab-runner:latest
 
-RUN apk-get upgrade \
-    && apk-get update \
+RUN apt-get upgrade \
+    && apt-get update \
     && apt-get install -y x11-apps\
     && apt-get install -y wget gnupg chromium mesa-va-drivers libva-drm2 libva-x11-2 mesa-utils mesa-utils-extra nodejs npm\
     && apt-get update \
