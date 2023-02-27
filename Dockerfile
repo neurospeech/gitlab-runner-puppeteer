@@ -37,7 +37,7 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV HOME="/tmp"
 
 
-RUN --rm -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner register &&\
+RUN gitlab/gitlab-runner register &&\
   --non-interactive &&\
   --executor "docker" &&\
   --docker-image alpine:latest &&\
@@ -49,3 +49,5 @@ RUN --rm -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner re
   --run-untagged="true" &&\
   --locked="false" &&\
   --access-level="not_protected"
+
+ENTRYPOINT ["gitlab/gitlab-runner"]
