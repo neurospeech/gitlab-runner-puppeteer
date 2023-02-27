@@ -1,6 +1,6 @@
 {
   "name": "gitlab-runner-puppeteer",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "GitLab Runner Container with Puppeteer",
   "main": "index.js",
   "scripts": {
