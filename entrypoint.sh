@@ -1,5 +1,6 @@
 #!/bin/sh
 gitlab-runner register \
+  --name $GITLAB_RUNNER_NAME  
   --non-interactive \
   --executor "docker" \
   --docker-image alpine:latest \
@@ -8,7 +9,7 @@ gitlab-runner register \
   --description "docker-runner" \
   --maintenance-note "Free-form maintainer notes about this runner" \
   --tag-list "docker,aws" \
-  --run-untagged="true" \
+  --run-untagged="false" \
   --locked="false" \
   --access-level="not_protected"
 
